@@ -7,10 +7,6 @@ import traceback
 import speech_recognition as sr
 
 from config import (
-    assistant_name,
-    assistant_sex,
-    assistant_language,
-    recognition_language,
     device_index
 )
 
@@ -19,20 +15,12 @@ class VoiceAssistant:
     ttsEngine = pyttsx3.init()
     recognizer = sr.Recognizer()
     microphone = sr.Microphone(device_index=device_index)
-    name = ""
-    sex = ""
-    speech_language = ""
-    recognition_language = ""
 
     def setup_assistant_voice(self) -> None:
         """
         Установка голоса по умолчанию (индекс может меняться в
         зависимости от настроек операционной системы)
         """
-        self.name = assistant_name
-        self.sex = assistant_sex
-        self.speech_language = assistant_language
-        self.recognition_language = recognition_language
         voices = self.ttsEngine.getProperty("voices")
         self.ttsEngine.setProperty("voice", voices[0].id)
 

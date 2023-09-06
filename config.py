@@ -1,7 +1,6 @@
 import speech_recognition as sr
 
 assistant_name = ''
-assistant_sex = 'female'
 assistant_language = 'ru'
 recognition_language = "ru-RU"
 device_index = 1
