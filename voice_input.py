@@ -7,6 +7,7 @@ import traceback
 import speech_recognition as sr
 
 from config import (
+    assistant_language,
     device_index
 )
 
@@ -82,7 +83,7 @@ class VoiceAssistant:
         try:
             for _ in search(search_term,  # что искать
                             tld="com",  # верхнеуровневый домен
-                            lang=self.speech_language,  # используется язык, на котором говорит ассистент
+                            lang=assistant_language,  # используется язык, на котором говорит ассистент
                             num=1,  # количество результатов на странице
                             start=0,  # индекс первого извлекаемого результата
                             stop=1,
