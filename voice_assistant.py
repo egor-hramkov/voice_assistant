@@ -8,7 +8,9 @@ import speech_recognition as sr
 
 from config import (
     assistant_language,
-    device_index
+    device_index,
+    rate,
+    volume
 )
 
 
@@ -24,6 +26,8 @@ class VoiceAssistant:
         """
         voices = self.ttsEngine.getProperty("voices")
         self.ttsEngine.setProperty("voice", voices[0].id)
+        self.ttsEngine.setProperty('rate', rate + 30)
+        self.ttsEngine.setProperty('volume', volume)
 
     def record_and_recognize_audio(self, *args: tuple):
         """
@@ -65,50 +69,38 @@ class VoiceAssistant:
         self.ttsEngine.say(str(text_to_speech))
         self.ttsEngine.runAndWait()
 
-    def search_for_term_on_google(self, *args: tuple):
+    def search_for_term_on_google(self, search_term: str):
         """
         Поиск в Google с автоматическим открытием ссылок (на список результатов и на сами результаты, если возможно)
-        :param args: фраза поискового запроса
+        :param search_term: фраза поискового запроса
         """
-        if not args[0]:
+        if not search_term:
             return
-        search_term = " ".join(args[0])
         url = "https://google.com/search?q=" + search_term
-
-        # открытие ссылки на поисковик в браузере
         webbrowser.get().open(url)
+        self.play_voice_assistant_speech(f"Вот что мне удалось найти по запросу {search_term}")
 
+    def search_for_video_on_youtube(self, search_term: str):
+        """
+        Поиск видео на YouTube с автоматическим открытием ссылки на список результатов
+        :param search_term: фраза поискового запроса
+        """
+        if not search_term:
+            return
+        url = "https://www.youtube.com/results?search_query=" + search_term
+        webbrowser.get().open(url)
+        self.play_voice_assistant_speech(f"Вот что мне удалось найти на ютубе по запросу {search_term}")
+
+    def alternative_google_search(self, search_term: str):
         # альтернативный поиск с автоматическим открытием ссылок на результаты
         search_results = []
         try:
-            for _ in search(search_term,  # что искать
-                            tld="com",  # верхнеуровневый домен
-                            lang=assistant_language,  # используется язык, на котором говорит ассистент
-                            num=1,  # количество результатов на странице
-                            start=0,  # индекс первого извлекаемого результата
-                            stop=1,
-                            # индекс последнего извлекаемого результата (я хочу, чтобы открывался первый результат)
-                            pause=1.0,  # задержка между HTTP-запросами
-                            ):
-                search_results.append(_)
-                webbrowser.get().open(_)
-
-        except:
-            self.play_voice_assistant_speech("Seems like we have a trouble. See logs for more information")
+            for website in search(search_term, lang=assistant_language, num_results=3):
+                search_results.append(website)
+                webbrowser.get().open(website)
+            self.play_voice_assistant_speech(f"Вот что мне удалось найти по запросу {search_term}")
+        except Exception:
+            self.play_voice_assistant_speech("Произошла ошибка при поиске, пожалуйста повторите запрос!")
             traceback.print_exc()
             return
 
-        print(search_results)
-        self.play_voice_assistant_speech(f"Here is what I found for {search_term} on google")
-
-    def search_for_video_on_youtube(self, *args: tuple):
-        """
-        Поиск видео на YouTube с автоматическим открытием ссылки на список результатов
-        :param args: фраза поискового запроса
-        """
-        if not args[0]:
-            return
-        search_term = " ".join(args[0])
-        url = "https://www.youtube.com/results?search_query=" + search_term
-        webbrowser.get().open(url)
-        self.play_voice_assistant_speech(f"Here is what I found for {search_term} on youtube")

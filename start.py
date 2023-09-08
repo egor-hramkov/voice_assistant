@@ -1,8 +1,8 @@
-from voice_input import VoiceAssistant
+from voice_assistant import VoiceAssistant
 
 if __name__ == "__main__":
+    VoiceAssistant().setup_assistant_voice()
     while True:
         # старт записи речи с последующим выводом распознанной речи
-        VoiceAssistant().setup_assistant_voice()
         voice_input = VoiceAssistant().record_and_recognize_audio()
         print(voice_input)

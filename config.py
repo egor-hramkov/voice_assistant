@@ -4,6 +4,8 @@ assistant_name = ''
 assistant_language = 'ru'
 recognition_language = "ru-RU"
 device_index = 1
+rate = 190
+volume = 1.0
 
 
 def get_microphone_list():
