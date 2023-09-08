@@ -1,6 +1,9 @@
+from dotenv import load_dotenv
+
 from voice_assistant import VoiceAssistant
 
 if __name__ == "__main__":
+    load_dotenv()
     VoiceAssistant().setup_assistant_voice()
     while True:
         # старт записи речи с последующим выводом распознанной речи

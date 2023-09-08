@@ -6,7 +6,7 @@ recognition_language = "ru-RU"
 device_index = 1
 rate = 190
 volume = 1.0
-
+home_city = 'Ульяновск'
 
 def get_microphone_list():
     microphones = sr.Microphone.list_microphone_names()
