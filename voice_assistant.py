@@ -48,7 +48,7 @@ class VoiceAssistant:
 
             try:
                 print("Listening...")
-                audio = self.recognizer.listen(self.microphone, 5, 5)
+                audio = self.recognizer.listen(self.microphone, 0, 2)
 
             except sr.WaitTimeoutError:
                 print("Can you check if your microphone is on, please?")
